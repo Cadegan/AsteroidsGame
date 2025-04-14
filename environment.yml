@@ -1,0 +1,10 @@
+name: asteroids
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pygame=2.6.0
+  - pygbag=0.6.0
+  - pip
+  - pip:
+    - -r requirements.txt
