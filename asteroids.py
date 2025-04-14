@@ -1,5 +1,6 @@
 import os
 os.environ['PYGBAG_DEBUG'] = '1'
+os.environ['PYGBAG_ARCHIVE'] = 'https://github.com/pygame-web/builds/releases/download/0.9/'
 
 import pygame
 import math
