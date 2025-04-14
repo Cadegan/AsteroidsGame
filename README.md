@@ -23,5 +23,19 @@ python asteroids.py
 - Espace : Tirer
 - R : Redémarrer
 
+## Déploiement sur GitHub Pages
+
+1. Installer les dépendances :
+```bash
+pip install -r requirements.txt
+```
+
+2. Builder le projet :
+```bash
+pygbag --build asteroids.py
+```
+
+3. Activer GitHub Pages dans les paramètres du repo (dossier `build/web`)
+
 ## Crédits
 Développé par [Votre Nom] avec l'assistance de Codeium AI
