@@ -1,3 +1,6 @@
+import os
+os.environ['PYGBAG_DEBUG'] = '1'
+
 import pygame
 import math
 import random
