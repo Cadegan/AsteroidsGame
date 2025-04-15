@@ -460,9 +460,12 @@ def main():
                 player.last_hit_time = current_time
                 player.shield_active = True
                 player.shield_end_time = current_time + 3000  # 3 secondes
-                particles.extend(create_explosion(player.x, player.y, color=(255, 50, 50)))  # Rouge
-                particles.extend(create_explosion(player.x, player.y, color=(255, 50, 50)))  # Rouge
-                
+                particles.extend([
+                    {**p, 'life_loss': True} for p in create_explosion(player.x, player.y, color=(255, 50, 50))
+                ])
+                particles.extend([
+                    {**p, 'life_loss': True} for p in create_explosion(player.x, player.y, color=(255, 50, 50))
+                ])
                 if player.lives <= 0:
                     game_over = True
         
@@ -565,12 +568,16 @@ def main():
             for bullet in bullets:
                 pygame.draw.circle(screen, (0, 255, 0), (int(bullet['x']), int(bullet['y'])), 3)  # Vert vif, taille 3
             for p in particles:
-                color_factor = p['life'] / PARTICLE_LIFETIME
-                color = (
-                    int(PARTICLE_START_COLOR[0] + (PARTICLE_END_COLOR[0] - PARTICLE_START_COLOR[0]) * color_factor),
-                    int(PARTICLE_START_COLOR[1] + (PARTICLE_END_COLOR[1] - PARTICLE_START_COLOR[1]) * color_factor),
-                    int(PARTICLE_START_COLOR[2] + (PARTICLE_END_COLOR[2] - PARTICLE_START_COLOR[2]) * color_factor)
-                )
+                # Si la particule vient de la perte de vie, on force la couleur rouge
+                if p.get('life_loss'):
+                    color = (255, 0, 0)
+                else:
+                    color_factor = p['life'] / PARTICLE_LIFETIME
+                    color = (
+                        int(PARTICLE_START_COLOR[0] + (PARTICLE_END_COLOR[0] - PARTICLE_START_COLOR[0]) * color_factor),
+                        int(PARTICLE_START_COLOR[1] + (PARTICLE_END_COLOR[1] - PARTICLE_START_COLOR[1]) * color_factor),
+                        int(PARTICLE_START_COLOR[2] + (PARTICLE_END_COLOR[2] - PARTICLE_START_COLOR[2]) * color_factor)
+                    )
                 pygame.draw.circle(screen, color, (int(p['x']), int(p['y'])), int(p['size'] * (p['life']/PARTICLE_LIFETIME)))
             for pu in powerups:
                 pu.draw(screen)
